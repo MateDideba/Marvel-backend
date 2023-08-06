@@ -12,6 +12,14 @@ app.use(express.json());
 app.use(cors());
 mongoose.connect(process.env.MONGODB_IP);
 const myApi = process.env.MARVEL_APIKEY;
+
+app.get("/", (req, res) => {
+  try {
+    return res.status(200).json({ message: "Wecome on our server Marvel !!!" });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+});
 app.get("/characters", async (req, res) => {
   try {
     const { page, name } = req.query;
