@@ -10,7 +10,7 @@ const uid2 = require("uid2");
 
 app.use(express.json());
 app.use(cors());
-mongoose.connect("mongodb://127.0.0.1:27017/marvel");
+mongoose.connect(process.env.MONGODB_IP);
 const myApi = process.env.MARVEL_APIKEY;
 app.get("/characters", async (req, res) => {
   try {
