@@ -77,7 +77,7 @@ app.get("/comics/:characterId", async (req, res) => {
     return res.status(400).json({ message: error.message });
   }
 });
-//------------------------Mongose requestes-----------------------------//
+//------------------------Mongose-requestes-----------------------------//
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const User = require("./Models/User");
 
@@ -102,15 +102,13 @@ app.post("/signup", async (req, res) => {
         });
         await newUser.save();
 
-        return res
-          .status(200)
-          .json({
-            _id: newUser._id,
-            token: newUser.token,
-            username: newUser.username,
-          });
+        return res.status(200).json({
+          _id: newUser._id,
+          token: newUser.token,
+          username: newUser.username,
+        });
       } else {
-        return res.status(409).json({ message: "This email is alredy exists" });
+        return res.status(409).json({ message: "This email alredy exists" });
       }
     } else {
       return res.status(400).json({ message: "Missing parameters" });
