@@ -102,7 +102,13 @@ app.post("/signup", async (req, res) => {
         });
         await newUser.save();
 
-        return res.status(200).json({ _id: newUser._id, token: newUser.token });
+        return res
+          .status(200)
+          .json({
+            _id: newUser._id,
+            token: newUser.token,
+            username: newUser.username,
+          });
       } else {
         return res.status(409).json({ message: "This email is alredy exists" });
       }
