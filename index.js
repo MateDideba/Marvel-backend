@@ -80,8 +80,8 @@ app.get("/comics/:characterId", async (req, res) => {
 //------------------------Mongose-requestes-----------------------------//
 const isAuthenticated = require("./middlewares/isAuthenticated");
 const User = require("./Models/User");
-
 const Favorite = require("./Models/Favorite");
+const Word = require("./Models/Word");
 
 app.post("/signup", async (req, res) => {
   try {
@@ -167,6 +167,32 @@ app.post("/favorite/add", isAuthenticated, async (req, res) => {
       return res
         .status(409)
         .json({ message: "Favorite with the same name already exist" });
+    }
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+});
+
+app.post("/word/add", isAuthenticated, async (req, res) => {
+  try {
+    const { wordForm, def, example } = req.body;
+
+    const isWordExist = await Word.findOne({
+      wordForm,
+    });
+    if (!isWordExist) {
+      const newWord = new Word({
+        wordForm,
+        def,
+        example,
+      });
+
+      await newWord.save();
+      return res.status(201).json(newWord);
+    } else {
+      return res
+        .status(409)
+        .json({ message: "Word with the same name already exists" });
     }
   } catch (error) {
     return res.status(400).json({ message: error.message });
